@@ -1,4 +1,4 @@
 # ShareSpace
 
-API para plataforma de cursos teste teste
+API para plataforma de cursos
 
