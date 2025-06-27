@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: sharespace
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - sharespace-net
+    volumes:
+      - db_data:/var/lib/mysql
+
+  sharespace-api:
+    build: .
+    depends_on:
+      - mysql_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/sharespace
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - sharespace-net
+
+networks:
+  sharespace-net:
+
+volumes:
+  db_data:
